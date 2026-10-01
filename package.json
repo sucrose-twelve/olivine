@@ -1,0 +1,26 @@
+{
+  "name": "olivine",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "bun run src/server.ts",
+    "serve:dev": "bun --watch src/server.ts",
+    "build:ruka": "tsc tests/ruka.spec.ts --ignoreConfig && esbuild tests/ruka.spec.js --minify --outfile=tests/ruka.spec.min.js",
+    "build:movie": "tsc tests/movie.spec.ts --ignoreConfig && esbuild tests/movie.spec.js --minify --outfile=tests/movie.spec.min.js"
+  },
+  "dependencies": {
+    "date-fns": "^4.4.0",
+    "dotenv": "^18.0.5",
+    "es-toolkit": "^1.52.0",
+    "rimraf": "^6.1.3",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@types/bun": "^1.4.2",
+    "@types/node": "^26.6.3",
+    "esbuild": "^0.28.2",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2"
+  }
+}

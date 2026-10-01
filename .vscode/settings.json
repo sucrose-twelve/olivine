@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "editor.snippetSuggestions": "top",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.eol": "\n",
+  "prettier.configPath": "prettier.config.js",
+}
