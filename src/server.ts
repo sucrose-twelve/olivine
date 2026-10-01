@@ -69,10 +69,12 @@ const server = Bun.serve({
           withFileTypes: true
         })
 
-        let isCase: "1-DUB" | "2-DUB" =
+        let isCase: "NONE" | "1-DUB" | "2-DUB" =
           dirents.filter((d) => d.name.includes("audio_en") || d.name.includes("audio_th")).length === 2
             ? "2-DUB"
-            : "1-DUB"
+            : dirents.filter((d) => d.name.includes("audio")).length === 1
+              ? "1-DUB"
+              : "NONE"
 
         const segments = new Map<string, Movie.Segment[]>()
 
