@@ -6,6 +6,7 @@ export const envSchema = z.object({
   HOSTNAME: z.string().default("localhost"),
   PORT: z.string().transform(Number).default(3000),
   TZ: z.string().default("Asia/Singapore"),
+  SOURCE_DIR: z.string(),
   URL: z.object({
     RUKA: z.url(),
     WAKU: z.url()

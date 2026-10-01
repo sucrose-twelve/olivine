@@ -12,6 +12,7 @@ export const ENV = envSchema.parse({
   HOSTNAME: process.env.HOSTNAME,
   PORT: process.env.PORT,
   TZ: process.env.TZ,
+  SOURCE_DIR: process.env.SOURCE_DIR,
   URL: {
     RUKA: process.env.RUKA_URL,
     WAKU: process.env.WAKU_URL

@@ -44,7 +44,7 @@ const server = Bun.serve({
           return json(req, { error: `field 'name' is required (string)` }, 422)
         }
 
-        const sourceDir = path.join("D:", "Downloads", "Scripts", "Movies", name)
+        const sourceDir = path.join(ENV.SOURCE_DIR, "Movies", name)
         const tracks: any[] = []
         let hosts: string[] = []
         let paths: Record<string, any> = {}
@@ -226,7 +226,7 @@ const server = Bun.serve({
         }
 
         const { source } = parsed.data
-        const sourceDir = path.join("D:", "Downloads", "Scripts", source)
+        const sourceDir = path.join(ENV.SOURCE_DIR, source)
         let destDir = path.join("F:", "Anime")
         if (source === "Ecchi") {
           destDir = "G:"
