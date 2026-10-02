@@ -1,7 +1,7 @@
 /**
  * @link https://zmdb.net/api/video/{id}
  */
-const main = async (name) => {
+const main = async (lists) => {
     const MAX_RETRIES = 100;
     const DELAY = 1000;
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -30,17 +30,6 @@ const main = async (name) => {
                     });
                     const result = await res.json();
                     return result.ok;
-                    // if (window.top) {
-                    //   window.top.postMessage(
-                    //     {
-                    //       type: "SAVE_FILE",
-                    //       formData: [...formData.entries()]
-                    //     },
-                    //     "https://25-hd.com"
-                    //   )
-                    //   await delay(320)
-                    //   return true
-                    // }
                 }
                 return false;
             }
@@ -58,37 +47,31 @@ const main = async (name) => {
         }
         return retries !== MAX_RETRIES;
     };
-    const response = await fetch(`http://localhost:3000/movie/tracks?name=${name}`, { method: "GET" });
-    if (response.ok) {
-        const metadata = await response.json();
-        console.log(`🚀 "${metadata.name}" is currently being process...`);
-        for await (const segments of metadata.segments) {
-            const results = await Promise.allSettled(segments.map(worker));
-            if (results.some((r) => r.status === "fulfilled" && r.value === false)) {
-                console.warn("⛔ Worker failed!");
-                break;
+    const start = async (name) => {
+        const response = await fetch(`http://localhost:3000/movie/tracks?name=${name}`, { method: "GET" });
+        if (response.ok) {
+            const metadata = await response.json();
+            console.log(`🚀 "${metadata.name}" is currently being process...`);
+            for await (const segments of metadata.segments) {
+                const results = await Promise.allSettled(segments.map(worker));
+                if (results.some((r) => r.status === "fulfilled" && r.value === false)) {
+                    console.warn("⛔ Worker failed!");
+                    break;
+                }
+                else {
+                    await delay(320);
+                }
             }
-            else {
-                await delay(320);
-            }
+            console.log(`🎉 "${metadata.name}" have been successfully processed.`);
         }
-        console.log(`🎉 "${metadata.name}" have been successfully processed.`);
-    }
-    else {
-        console.warn("⛔ Server offline!");
-        return null;
+        else {
+            console.warn("⛔ Server offline!");
+            return null;
+        }
+    };
+    for await (const name of lists) {
+        await start(name);
+        await delay(6400);
     }
 };
 export {};
-// window.addEventListener("message", ({ data }) => {
-//   if (data?.type === "SAVE_FILE") {
-//     const formData = new FormData()
-//     for (const [key, value] of data.formData) {
-//       formData.append(key, value)
-//     }
-//     fetch("http://localhost:3000/segment", {
-//       method: "POST",
-//       body: formData
-//     })
-//   }
-// })
